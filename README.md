@@ -1,24 +1,59 @@
-# README
+# お土産シェア
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+## サイト概要
+お土産・手土産専門のレビューサイトです。  
+ユーザーに購入品を投稿（共有）してもらうことで、  
+「お土産に良い物・おすすめな物を購入したい・渡したいけど何を購入したら良いかわからない」・「観光時間を削りたくないからどこで買えるのか事前に調べたい」といったことが解決できます。  
+また、コメント欄でユーザー同士、コミュニケーションをとることができます。  
 
-Things you may want to cover:
+機能|説明
+-|-
+ログイン機能|メールアドレス、パスワードでログインできる　
+ログアウト機能|ログアウト後は投稿ができなくなる（観覧のみ）
+投稿機能|写真のアップロード・感想やレビューを投稿できる
+フォロー・フォロワー機能|お気に入りのユーザーをフォローできる
+検索機能|キーワードを入力して他のユーザーの投稿したお土産を探すことができる
+いいね機能|気になるお土産にいいねすることができる
+評価機能|おすすめ度としてスコアをつけることができる　
+地図表示|購入したお店の住所を入力すると地図が表示される
+   
+### サイトテーマ
+お土産を購入した場所やレビューを投稿できるレビューアプリ
 
-* Ruby version
+### テーマを選んだ理由
+旅行のお土産や手土産など様々なシーンでの贈り物をする機会が多いと思います。  
+その際、「何を購入したら良いのか」、「流行っている物は何か」、「折角なら良い物を渡したい」、「他の人はどんな物を購入しているのか」など購入前に考える人は少なくないと思います。  
+そういった困りごとを解決できる手段の一つになるようなアプリを作成したいと思いました。  
+作成者自身も以下のような経験や感じたことがありました。  
+- SNSの写真を見て欲しいなと感じるがどこで購入できるか分からない
+- 旅行先で買えるおすすめなお土産が知りたい
+- 良いお土産が買えたからシェアしたい
+- SNSを見ているとどこで購入したのか聞いているコメントをよく見かける
+そのためこのテーマにしました。
 
-* System dependencies
+### ターゲットユーザ
+- 旅行が好きな人
+- お買い物が好きな人
+- お土産・手土産の記録をしたい人
+- 購入したいが何を買えば良いか迷ってしまう人
+- 購入に慎重な人
 
-* Configuration
+### 主な利用シーン
+旅行のお土産や手土産などの贈り物を購入する前や後に使用
 
-* Database creation
 
-* Database initialization
+## 設計書
+https://drive.google.com/file/d/1THFpP4pGt15Gp25dupkqHTVBO7_vFN2J/view?usp=sharing
 
-* How to run the test suite
+## チャレンジ要素一覧
+https://docs.google.com/spreadsheets/d/13X05JysWmVE2XehIhwGKtfj95WDTqafr5bWQG8jGL9Y/edit?usp=sharing
 
-* Services (job queues, cache servers, search engines, etc.)
+## 開発環境
+- OS：Linux(CentOS)
+- 言語：HTML,CSS,JavaScript,Ruby,SQL
+- フレームワーク：Ruby on Rails
+- JSライブラリ：jQuery
+- IDE：Cloud9
 
-* Deployment instructions
-
-* ...
+## 使用素材
+- 使用検討中です。
