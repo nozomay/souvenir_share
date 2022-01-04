@@ -1,4 +1,12 @@
 <h2>レビュー投稿画面</h2>
+<br>
+  <% if @post.errors.any? %>
+    <%= @post.errors.count %>件のエラーが発生しました
+    <% @post.errors.full_messages.each do |message| %>
+      <%= message %>
+    <% end %>
+  <% end %>
+<br>
 <%= form_with model: @post, local:true do |f| %>
   <h4>タイトル</h4>
   <%= f.text_field :title %>

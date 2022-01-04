@@ -1,6 +1,13 @@
 <h1>投稿詳細</h1>
-  <h2>タイトル</h2>
-  <p><%= post.title %></p>
-  <h2>レビュー</h2>
-  <p><%= post.review %></p>
-  <p><%= post.rate %></p>
+<br>
+  <% if flash[:notice] %>
+    <div class="flash">
+      <%= flash[:notice] %>
+    </div>
+  <% end %>
+<br>
+<h2>タイトル</h2>
+<p><%= post.title %></p>
+<h2>レビュー</h2>
+<p><%= post.review %></p>
+<p><%= post.rate %></p>
