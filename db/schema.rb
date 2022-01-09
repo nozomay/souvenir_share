@@ -18,6 +18,8 @@ ActiveRecord::Schema.define(version: 2021_12_19_123113) do
     t.text "review", null: false
     t.float "rate"
     t.string "address", null: false
+    t.float "latitude"
+    t.float "longitude"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
