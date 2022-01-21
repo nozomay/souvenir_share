@@ -46,7 +46,7 @@ class PostsController < ApplicationController
 
   private
   def post_params
-    params.require(:post).permit(:title, :review, :rate, :address)
+    params.require(:post).permit(:image, :title, :review, :rate, :address)
   end
 
   def move_to_signed_in

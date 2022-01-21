@@ -14,6 +14,7 @@ ActiveRecord::Schema.define(version: 2021_12_19_123113) do
 
   create_table "posts", force: :cascade do |t|
     t.integer "user_id"
+    t.string "image_id", null: false
     t.string "title", null: false
     t.text "review", null: false
     t.float "rate"
