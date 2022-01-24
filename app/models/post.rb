@@ -1,7 +1,7 @@
 class Post < ApplicationRecord
   belongs_to :user
-  
   attachment :image
+  has_many :post_comments, dependent: :destroy
 
   #[Google Map]
   geocoded_by :address
