@@ -31,8 +31,20 @@
   })
 </script>
 <p><%= @post.rate %></p>
-
 </div>
+<% if @post.favorited_by?(current_user) %>
+    <p>
+      <%= link_to post_favorites_path(@post), method: :delete do %>
+        ♥<%= @post.post_favorites.count %> いいね
+      <% end %>
+    </p>
+    <% else %>
+    <p>
+      <%= link_to post_favorites_path(@post), method: :post do %>
+        ♡<%= @post.post_favorites.count %> いいね
+      <% end %>
+    </p>
+  <% end %>
 <p><%= @post.address %></p>
 <!--地図表示-->
 <div id="map"></div>
