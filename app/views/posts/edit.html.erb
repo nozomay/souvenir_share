@@ -1,4 +1,4 @@
-<h2>レビュー投稿画面</h2>
+<h2>レビュー編集画面</h2>
 <br>
   <% if @post.errors.any? %>
     <%= @post.errors.count %>件のエラーが発生しました
@@ -14,22 +14,23 @@
   <%= f.text_field :title %>
   <h4>レビュー</h4>
   <%= f.text_area :review %>
-  <div id="star">
-    <label>評価</label>
-  </div>
+  <h4>評価</h4>
+  <div id="star-rate-<%= @post.id %>"></div>
   <h4>住所</h4>
   <%= f.text_field :address %>
   <h4>タグ</h4>
-  <%= f.text_field :name %>
+  <%= f.text_field :name, value: @tag_list %>
   <%= f.submit '投稿' %>
 <% end %>
 <script>
-  $('#star').raty({
-   size: 36,
-   starOff: "<%= asset_path('star-off.png') %>",
-   starOn: "<%= asset_path('star-on.png') %>",
-   starHalf: "<%= asset_path('star-half.png') %>",
-   scoreName: 'post[rate]',
-   half: true,
- });
+  $('#star-rate-<%= @post.id %>').raty({
+    size:36,
+    starOff: "<%= asset_path('star-off.png') %>",
+    starOn: "<%= asset_path('star-on.png') %>",
+    starHalf: "<%= asset_path('star-half.png') %>",
+    half: true,
+    score: <%= @post.rate %>,
+    scoreName: 'post[rate]'
+  });
 </script>
+

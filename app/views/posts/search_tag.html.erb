@@ -1,0 +1,13 @@
+<h3>タグが<%=@tag.name%>の投稿一覧</h3>
+
+<!--タグリスト-->
+<% @tag_list.each do |list|%>
+<%=link_to list.name,search_tag_path(tag_id: list.id) %>
+<%="(#{list.posts.count})" %><% end %>
+<!--投稿タイトルリンク-->
+<% @posts.each do |post| %>
+  <h4>
+    <%=link_to post_path(post.id) do %><%= post.title.truncate(25) %>
+    <% end %>
+  </h4>
+<% end %>

@@ -17,6 +17,12 @@
 <p><%= @post.title %></p>
 <h2>レビュー</h2>
 <p><%= @post.review %></p>
+<!--タグ-->
+<p>
+  <% @post_tags.each do |tag| %>
+    <%= link_to tag.name, search_tag_path(tag_id: tag.id) %><%= "(#{tag.posts.count})" %>
+  <% end %>
+</p>
 <!--レビュー星-->
 <div id="star-rate-<%= @post.id %>"></div>
 <script>
@@ -27,8 +33,8 @@
     starHalf: "<%= asset_path('star-half.png') %>",
     half: true,
     readOnly: true,
-    score: <%= @post.rate%>
-  })
+    score: <%= @post.rate %>
+  });
 </script>
 <p><%= @post.rate %></p>
 </div>

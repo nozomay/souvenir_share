@@ -1,0 +1,6 @@
+<h2>レビュー一覧画面</h2>
+<% @posts.each do |post| %>
+  <%= link_to post_path(post.id) do %>
+    <%= attachment_image_tag post, :image %>
+  <% end %>
+<% end %>
