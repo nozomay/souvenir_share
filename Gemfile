@@ -68,3 +68,4 @@ gem 'geocoder'
 gem 'dotenv-rails'
 gem "refile", require: "refile/rails", github: 'manfe/refile'
 gem "refile-mini_magick"
+gem 'font-awesome-sass'
