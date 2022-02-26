@@ -8,11 +8,13 @@ Rails.application.routes.draw do
     resources :post_comments, only: [:create, :destroy]
   end
   #[タグ]
-  get 'search_tag', to: 'posts#search_tag'
+  get 'search_tag' => 'posts#search_tag'
   #[フォロー・フォロワー]
   resources :users do
     resource :relationships, only: [:create, :destroy]
     get 'followings' => 'relationships#followings', as: 'followings'
     get 'followers' => 'relationships#followers', as: 'followers'
   end
+  #[検索]
+  get 'search_post' => 'posts#search_post'
 end

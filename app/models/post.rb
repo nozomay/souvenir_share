@@ -6,6 +6,11 @@ class Post < ApplicationRecord
   has_many :post_tags, dependent: :destroy
   has_many :tags, through: :post_tags
 
+  #[検索]
+  def self.looks(content)
+    @post = Post.where(['title LIKE ? OR review LIKE ? OR address LIKE ?', "%#{content}%", "%#{content}%", "%#{content}%"])
+  end
+  
   #[タグ]
   def save_tag(sent_tags)
     current_tags = self.tags.pluck(:name) unless self.tags.nil?

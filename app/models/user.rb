@@ -25,8 +25,11 @@ class User < ApplicationRecord
   def following?(user)
     followings.include?(user)
   end
-
-
+  
+  #[ユーザ検索]
+  def self.looks(content)
+    @user = User.where('name LIKE ?', "%#{content}%")  
+  end
 
   validates :name, presence: true
 end

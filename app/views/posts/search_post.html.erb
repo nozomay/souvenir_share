@@ -1,0 +1,12 @@
+<h1>検索結果</h1>
+<% if @range == "User" %>
+    <% @users.each do |user| %>
+        <%= user.name %>
+    <% end %>
+<% else %>
+    <% @posts.each do |post| %>
+      <%= link_to post_path(post.id) do %>
+        <%= attachment_image_tag post, :image %>
+      <% end %>
+    <% end %>
+<% end %>

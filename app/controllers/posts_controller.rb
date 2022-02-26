@@ -29,12 +29,6 @@ class PostsController < ApplicationController
     end
   end
 
-  def search_tag
-    @tag_list = Tag.all
-    @tag = Tag.find(params[:tag_id])
-    @posts = @tag.posts.all
-  end
-
   def edit
     @post = Post.find(params[:id])
     @tag_list = @post.tags.pluck(:name).join(',')
@@ -63,11 +57,26 @@ class PostsController < ApplicationController
     redirect_to posts_path
   end
 
+  def search_tag
+    @tag_list = Tag.all
+    @tag = Tag.find(params[:tag_id])
+    @posts = @tag.posts.all
+  end
+
+  def search_post
+    @range = params[:range]
+    if @range == "User"
+      @users = User.looks(params[:content])
+    else
+      @posts = Post.looks(params[:content])
+    end
+  end
+
   private
   def post_params
     params.require(:post).permit(:image, :title, :review, :rate, :address)
   end
-
+  
   def move_to_signed_in
     unless user_signed_in?
       redirect_to  new_user_session_path
