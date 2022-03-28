@@ -1,103 +1,153 @@
-<h1>投稿詳細</h1>
-<br>
-  <% if flash[:notice] %>
-    <div class="flash">
-      <%= flash[:notice] %>
-    </div>
-  <% end %>
-<br>
-<p>投稿日時：<%= @post.created_at.strftime('%Y/%m/%d') %></p>
-  <% if @post.user == current_user %>
-    <%= link_to "削除", post_path(@post), method: :delete, data: {confirm: '本当に削除しますか？'} %>
-  <% end %>
-
-<h2>画像</h2>
-  <%= attachment_image_tag @post, :image %>
-<h2>タイトル</h2>
-<p><%= @post.title %></p>
-<h2>レビュー</h2>
-<p><%= @post.review %></p>
-<!--タグ-->
-<p>
-  <% @post_tags.each do |tag| %>
-    <%= link_to tag.name, search_tag_path(tag_id: tag.id) %><%= "(#{tag.posts.count})" %>
-  <% end %>
-</p>
-<!--レビュー星-->
-<div id="star-rate-<%= @post.id %>"></div>
-<script>
-  $('#star-rate-<%= @post.id %>').raty({
-    size:36,
-    starOff: "<%= asset_path('star-off.png') %>",
-    starOn: "<%= asset_path('star-on.png') %>",
-    starHalf: "<%= asset_path('star-half.png') %>",
-    half: true,
-    readOnly: true,
-    score: <%= @post.rate %>
-  });
-</script>
-<p><%= @post.rate %></p>
-</div>
-<% if @post.favorited_by?(current_user) %>
-    <p>
-      <%= link_to post_favorites_path(@post), method: :delete do %>
-        ♥<%= @post.post_favorites.count %> いいね
-      <% end %>
-    </p>
-    <% else %>
-    <p>
-      <%= link_to post_favorites_path(@post), method: :post do %>
-        ♡<%= @post.post_favorites.count %> いいね
-      <% end %>
-    </p>
-  <% end %>
-<p><%= @post.address %></p>
-<!--地図表示-->
-<div id="map"></div>
-<script>
-  function initMap(){
-  const test ={lat: <%= @post.latitude || 35.6809591 %>, lng: <%= @post.longitude || 139.7673068 %>};
-  const map = new google.maps.Map(document.getElementById('map'), {
-      zoom: 15,
-      center: test
-  });
-
-  const transitLayer = new google.maps.TransitLayer();
-  transitLayer.setMap(map);
-
-  const contentString = '住所：<%= @post.address %>';
-  const infowindow = new google.maps.InfoWindow({
-      content: contentString
-  });
-
-  const marker = new google.maps.Marker({
-      position:test,
-      map: map,
-      title: contentString
-  });
-
-  marker.addListener('click', function() {
-      infowindow.open(map, marker);
-  });
-}
-</script>
-<script src="https://maps.googleapis.com/maps/api/js?key=<%= ENV['GOOGLE_MAP_API_KEY'] %>&callback=initMap" async defer></script>
-<div>
-<p>コメント件数：<%= @post.post_comments.count %></p>
-<% @post.post_comments.each do |post_comment| %>
-  <p><%= image_tag('sample-author1.jpg') %></p>
-  <%= post_comment.user.name %>
-  <%= post_comment.created_at.strftime('%Y/%m/%d') %><%= post_comment.comment %>
-  <% if post_comment.user == current_user %>
-  <div>
-    <%= link_to "削除", post_image_post_comment_path(post_comment.post_image, post_comment), method: :delete %>
+<!--投稿詳細-->
+<div class="container">
+  <div class="row">
+    <% if flash[:notice] %>
+      <div class="flash">
+        <%= flash[:notice] %>
+      </div>
+    <% end %>
   </div>
-  <% end %>
-<% end %>
 </div>
-<div>
-<%= form_with(model:[@post, @post_comment], local: true) do |f| %>
-  <%= f.text_area :comment, rows:'5',placeholder: "コメントをここに" %>
-  <%= f.submit "送信する" %>
-<% end %>
+<div class="container">
+  <div class="form-group row justify-content-center">
+    <!--プロフィール画・ユーザー名-->
+    <%= link_to user_path(@user.id) do %>
+    <div class="col">
+      <%= attachment_image_tag @user, :profile_image, :fill, 20,20, fallback: "no_image.jpg", class:"mt-3 rounded-circle"; %>
+    </div>
+    <div class="col">
+      <%= @post.user.name %>
+    <% end %>
+    </div>
+  </div>
+  <!--画像-->
+  <div class="form-group row justify-content-center">
+    <div class="col">
+      <%= attachment_image_tag @post, :image %>
+    </div>
+  </div>
+  <!--投稿日-->
+  <div class="form-group row justify-content-center">
+    <div class="col">
+      投稿日：<%= @post.created_at.strftime('%Y/%m/%d') %></p>
+      <% if @post.user == current_user %>
+        <%= link_to "削除", post_path(@post), method: :delete, data: {confirm: '本当に削除しますか？'} %>|
+        <%= link_to "編集", edit_post_path(@post) %>
+      <% end %>
+    </div>
+  </div>
+
+  <div class="form-group row justify-content-center">
+    <!--タイトル-->
+    <div class="col">
+      <%= @post.title %>
+    </div>
+    <!--レビュー星-->
+    <div id="star-rate-<%= @post.id %>"></div>
+    <script>
+      $('#star-rate-<%= @post.id %>').raty({
+        size:36,
+        starOff: "<%= asset_path('star-off.png') %>",
+        starOn: "<%= asset_path('star-on.png') %>",
+        starHalf: "<%= asset_path('star-half.png') %>",
+        half: true,
+        readOnly: true,
+        score: <%= @post.rate %>
+      });
+    </script>
+    <div class="col">
+      <%= @post.rate %>
+    </div>
+  </div>
+  <!--レビュー-->
+  <div class="form-group row justify-content-center">
+    <div class="col">
+      <%= @post.review %>
+    </div>
+  </div>
+  <!--タグ-->
+  <div class="form-group row justify-content-center">
+    <div class="col">
+      <% @post_tags.each do |tag| %>
+        <%= link_to tag.name, search_tag_path(tag_id: tag.id) %><%= "(#{tag.posts.count})" %>
+      <% end %>
+    </div>
+  </div>
+  <!--いいね-->
+  <div class="form-group row justify-content-center">
+    <div class="col">
+      <% if @post.favorited_by?(current_user) %>
+        <%= link_to post_post_favorites_path(@post), method: :delete do %>
+          ♥<%= @post.post_favorites.count %>
+        <% end %>
+      <% else %>
+        <%= link_to post_post_favorites_path(@post), method: :post do %>
+          ♡<%= @post.post_favorites.count %>
+        <% end %>
+      <% end %>
+    </div>
+  </div>
+  <!--住所-->
+  <div class="form-group row justify-content-center">
+    <div class="col">
+      <%= @post.address %>
+    </div>
+  </div>
+  <!--地図表示-->
+  <div id="map"></div>
+  <script>
+    function initMap(){
+    const test ={lat: <%= @post.latitude || 35.6809591 %>, lng: <%= @post.longitude || 139.7673068 %>};
+    const map = new google.maps.Map(document.getElementById('map'), {
+        zoom: 15,
+        center: test
+    });
+
+    const transitLayer = new google.maps.TransitLayer();
+    transitLayer.setMap(map);
+
+    const contentString = '住所：<%= @post.address %>';
+    const infowindow = new google.maps.InfoWindow({
+        content: contentString
+    });
+
+    const marker = new google.maps.Marker({
+        position:test,
+        map: map,
+        title: contentString
+    });
+
+    marker.addListener('click', function() {
+        infowindow.open(map, marker);
+    });
+  }
+  </script>
+  <script src="https://maps.googleapis.com/maps/api/js?key=<%= ENV['GOOGLE_MAP_API_KEY'] %>&callback=initMap" async defer></script>
+  <div class="form-group row justify-content-center">
+    <div class="col">
+      コメント件数：<%= @post.post_comments.count %>
+      <% @post.post_comments.each do |post_comment| %>
+      <p><%= attachment_image_tag @user, :profile_image, :fill, 20,20, fallback: "no_image.jpg", class:"mt-3 rounded-circle"; %>
+        <%= post_comment.user.name %>
+        <%= post_comment.comment %>
+      </p>
+      <%= post_comment.created_at.strftime('%Y/%m/%d') %>
+      <% if post_comment.user == current_user %>
+      <div>
+        <%= link_to "削除", post_post_comment_path(post_comment.post, post_comment), method: :delete %>
+      </div>
+      <% end %>
+  <% end %>
+    </div>
+  </div>
+  <div class="form-group row justify-content-center">
+    <div class="col">
+      <%= form_with(model:[@post, @post_comment], local: true) do |f| %>
+        <%= f.text_area :comment, rows:'5',placeholder: "コメントをここに" %>
+        <%= f.submit "送信する" %>
+      <% end %>
+    </div>
+  </div>
+<%= link_to "戻る", :back %>
+<%= link_to "一覧画面", posts_path %>
 </div>

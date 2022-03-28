@@ -1,36 +1,41 @@
-<h2>レビュー編集画面</h2>
-<br>
-  <% if @post.errors.any? %>
-    <%= @post.errors.count %>件のエラーが発生しました
-    <% @post.errors.full_messages.each do |message| %>
-      <%= message %>
+<div class="container">
+  <div class="form-group row justify-content-center">
+    <h2>レビュー編集画面</h2>
+  </div>
+  <div class="form-group row justify-content-center">
+    <% if @post.errors.any? %>
+      <%= @post.errors.count %>件のエラーが発生しました
+      <% @post.errors.full_messages.each do |message| %>
+        <%= message %>
+      <% end %>
     <% end %>
-  <% end %>
-<br>
-<%= form_with model: @post, local:true do |f| %>
-  <h4>画像</h4>
-  <%= f.attachment_field :image %>
-  <h4>タイトル</h4>
-  <%= f.text_field :title %>
-  <h4>レビュー</h4>
-  <%= f.text_area :review %>
-  <h4>評価</h4>
-  <div id="star-rate-<%= @post.id %>"></div>
-  <h4>住所</h4>
-  <%= f.text_field :address %>
-  <h4>タグ</h4>
-  <%= f.text_field :name, value: @tag_list %>
-  <%= f.submit '投稿' %>
-<% end %>
-<script>
-  $('#star-rate-<%= @post.id %>').raty({
-    size:36,
-    starOff: "<%= asset_path('star-off.png') %>",
-    starOn: "<%= asset_path('star-on.png') %>",
-    starHalf: "<%= asset_path('star-half.png') %>",
-    half: true,
-    score: <%= @post.rate %>,
-    scoreName: 'post[rate]'
-  });
-</script>
-
+  </div>
+  <div class="form-group row justify-content-center">
+    <%= form_with model: @post, local:true do |f| %>
+      <h4>画像</h4>
+      <%= f.attachment_field :image %>
+      <h4>タイトル</h4>
+      <%= f.text_field :title %>
+      <h4>レビュー</h4>
+      <%= f.text_area :review %>
+      <h4>評価</h4>
+      <div id="star-rate-<%= @post.id %>"></div>
+      <h4>住所</h4>
+      <%= f.text_field :address %>
+      <h4>タグ</h4>
+      <%= f.text_field :name, value: @tag_list %>
+      <%= f.submit '投稿' %>
+    <% end %>
+    <script>
+      $('#star-rate-<%= @post.id %>').raty({
+        size:36,
+        starOff: "<%= asset_path('star-off.png') %>",
+        starOn: "<%= asset_path('star-on.png') %>",
+        starHalf: "<%= asset_path('star-half.png') %>",
+        half: true,
+        score: <%= @post.rate %>,
+        scoreName: 'post[rate]'
+      });
+    </script>
+  </div>
+</div>

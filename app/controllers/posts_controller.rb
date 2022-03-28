@@ -2,12 +2,13 @@ class PostsController < ApplicationController
   before_action :move_to_signed_in, except: [:index]
 
   def index
-    @posts = Post.all
+    @posts = Post.page(params[:page]).per(27)
     @tag_list = Tag.all
   end
 
   def show
     @post = Post.find(params[:id])
+    @user = @post.user
     @post_comment = PostComment.new
     @post_tags = @post.tags
   end
@@ -76,7 +77,7 @@ class PostsController < ApplicationController
   def post_params
     params.require(:post).permit(:image, :title, :review, :rate, :address)
   end
-  
+
   def move_to_signed_in
     unless user_signed_in?
       redirect_to  new_user_session_path

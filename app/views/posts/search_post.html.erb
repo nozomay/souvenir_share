@@ -1,7 +1,10 @@
 <h1>検索結果</h1>
 <% if @range == "User" %>
     <% @users.each do |user| %>
+      <%= link_to user_path(user.id) do %>
+        <%= attachment_image_tag user, :profile_image, :fill, 20,20, fallback: "no_image.jpg" %>
         <%= user.name %>
+      <% end %>
     <% end %>
 <% else %>
     <% @posts.each do |post| %>

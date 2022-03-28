@@ -4,13 +4,13 @@ Rails.application.routes.draw do
   root to: 'homes#top'
   #[投稿]
   resources :posts do
-    resource :favorites, only: [:create, :destroy]
+    resource :post_favorites, only: [:create, :destroy]
     resources :post_comments, only: [:create, :destroy]
   end
   #[タグ]
   get 'search_tag' => 'posts#search_tag'
   #[フォロー・フォロワー]
-  resources :users do
+  resources :users, only: [:show, :edit, :update] do
     resource :relationships, only: [:create, :destroy]
     get 'followings' => 'relationships#followings', as: 'followings'
     get 'followers' => 'relationships#followers', as: 'followers'
