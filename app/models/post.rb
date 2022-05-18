@@ -6,9 +6,10 @@ class Post < ApplicationRecord
   has_many :post_tags, dependent: :destroy
   has_many :tags, through: :post_tags
 
+
   #[検索]
   def self.looks(content)
-    @post = Post.where(['title LIKE ? OR review LIKE ? OR address LIKE ?', "%#{content}%", "%#{content}%", "%#{content}%"])
+    @posts = Post.where(['title LIKE ? OR review LIKE ? OR address LIKE ?', "%#{content}%", "%#{content}%", "%#{content}%"])
   end
   
   #[タグ]
@@ -37,8 +38,12 @@ class Post < ApplicationRecord
   after_validation :geocode, if: :address_changed?
 
   #[レビュースコア]星1以上〜５以下
-  validates :rate, numericality: {
-    less_than_or_equal_to: 5,
-    greater_than_or_equal_to: 1
-  }, presence: true
+  # validates :rate, numericality: {
+  #   less_than_or_equal_to: 5,
+  #   greater_than_or_equal_to: 1
+  # }, presence: true
+  
+  validates :title, presence: true
+  validates :review, presence: true
+  validates :address, presence: true
 end

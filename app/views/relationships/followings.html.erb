@@ -1,1 +1,11 @@
+<div class="container">
+  <div class="row m-3 justify-content-center">
+    <h2>フォロー一覧</h2>
+  </div>
+</div>
 <%= render 'follow_list' %>
+<div class="container">
+  <div class="row justify-content-center">
+    <%= paginate @followings  %>
+  </div>
+</div>

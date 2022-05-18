@@ -1,5 +1,5 @@
 <div class="container">
-  <div class="form-group row justify-content-center">
+  <div class="row m-3 justify-content-center">
     <h2>レビュー編集画面</h2>
   </div>
   <div class="form-group row justify-content-center">
@@ -9,33 +9,43 @@
         <%= message %>
       <% end %>
     <% end %>
+    <br>
   </div>
-  <div class="form-group row justify-content-center">
+</div>
+<div class="container">
+  <div class="row m-3 justify-content-center">
     <%= form_with model: @post, local:true do |f| %>
       <h4>画像</h4>
       <%= f.attachment_field :image %>
       <h4>タイトル</h4>
-      <%= f.text_field :title %>
+      <%= f.text_field :title, :size=>"50" %>
       <h4>レビュー</h4>
-      <%= f.text_area :review %>
+      <%= f.text_area :review, :size=>"50x10" %>
       <h4>評価</h4>
-      <div id="star-rate-<%= @post.id %>"></div>
+      <div id="star-rate-<%= @post.id %>">
+        <label>おすすめ度:</label>
+      </div>
+      <script>
+        $('#star-rate-<%= @post.id %>').raty({
+          size:36,
+          starOff: "<%= asset_path('star-off.png') %>",
+          starOn: "<%= asset_path('star-on.png') %>",
+          starHalf: "<%= asset_path('star-half.png') %>",
+          half: true,
+          score: <%= @post.rate %>,
+          scoreName: 'post[rate]'
+        });
+      </script>
       <h4>住所</h4>
-      <%= f.text_field :address %>
+      <%= f.text_field :address, :size=>"50" %>
       <h4>タグ</h4>
-      <%= f.text_field :name, value: @tag_list %>
-      <%= f.submit '投稿' %>
+      <%= f.text_field :name, :size=>"50", value: @tag_list %>
+      <br>
+      <br>
+      <%= f.submit '保存', class:"btn btn-outline-success btn-block" %>
     <% end %>
-    <script>
-      $('#star-rate-<%= @post.id %>').raty({
-        size:36,
-        starOff: "<%= asset_path('star-off.png') %>",
-        starOn: "<%= asset_path('star-on.png') %>",
-        starHalf: "<%= asset_path('star-half.png') %>",
-        half: true,
-        score: <%= @post.rate %>,
-        scoreName: 'post[rate]'
-      });
-    </script>
+  </div>
+  <div class="row m-3 justify-content-center">
+    <%= link_to "戻る", :back %>
   </div>
 </div>

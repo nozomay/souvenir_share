@@ -1,36 +1,48 @@
-<h2>レビュー投稿画面</h2>
-<br>
-  <% if @post.errors.any? %>
-    <%= @post.errors.count %>件のエラーが発生しました
-    <% @post.errors.full_messages.each do |message| %>
-      <%= message %>
+<div class="container">
+  <div class="row m-3 justify-content-center">
+    <h2>レビュー投稿画面</h2>
+    <br>
+    <% if @post.errors.any? %>
+      <%= @post.errors.count %>件のエラーが発生しました
+      <% @post.errors.full_messages.each do |message| %>
+        <%= message %>
+      <% end %>
     <% end %>
-  <% end %>
-<br>
-<%= form_with model: @post, local:true do |f| %>
-  <h4>画像</h4>
-  <%= f.attachment_field :image %>
-  <h4>タイトル</h4>
-  <%= f.text_field :title %>
-  <h4>レビュー</h4>
-  <%= f.text_area :review %>
-  <div id="star">
-    <label>評価</label>
+    <br>
   </div>
-  <h4>住所</h4>
-  <%= f.text_field :address %>
-  <h4>タグ</h4>
-  <%= f.text_field :name %>
-  <%= f.submit '投稿' %>
-<% end %>
-<%= link_to "戻る", :back %>
-<script>
-  $('#star').raty({
-   size: 36,
-   starOff: "<%= asset_path('star-off.png') %>",
-   starOn: "<%= asset_path('star-on.png') %>",
-   starHalf: "<%= asset_path('star-half.png') %>",
-   scoreName: 'post[rate]',
-   half: true,
- });
-</script>
+</div>
+<div class="container">
+  <div class="row m-3 justify-content-center">
+    <%= form_with model: @post, local:true do |f| %>
+      <h4>画像</h4>
+      <%= f.attachment_field :image %>
+      <h4>タイトル</h4>
+      <%= f.text_field :title, :size=>"50" %>
+      <h4>レビュー</h4>
+      <%= f.text_area :review, :size=>"50x10" %>
+      <div id="star">
+        <label>おすすめ度:</label>
+      </div>
+      <script>
+        $('#star').raty({
+         size: 36,
+         starOff: "<%= asset_path('star-off.png') %>",
+         starOn: "<%= asset_path('star-on.png') %>",
+         starHalf: "<%= asset_path('star-half.png') %>",
+         scoreName: 'post[rate]',
+         half: true,
+        });
+      </script>
+      <h4>住所</h4>
+      <%= f.text_field :address, :size=>"50" %>
+      <h4>タグ</h4>
+      <%= f.text_field :name, :size=>"50", placeholder: "複数のタグを付ける場合は「,」で区切ってください" %>
+      <br>
+      <br>
+      <%= f.submit '投稿', class:"btn btn-outline-success btn-block" %>
+    <% end %>
+  </div>
+  <div class="row m-3 justify-content-center">
+    <%= link_to "戻る", :back %>
+  </div>
+</div>

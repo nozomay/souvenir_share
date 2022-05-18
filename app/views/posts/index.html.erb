@@ -1,13 +1,21 @@
-<h2>レビュー一覧画面</h2>
-<% if flash[:notice] %>
-  <div class="flash">
-    <%= flash[:notice] %>
+<div class="container">
+  <div class="row">
+    <h2>みんなのお土産</h2>
   </div>
-<% end %>
-<br>
-<% @posts.each do |post| %>
-  <%= link_to post_path(post.id) do %>
-    <%= attachment_image_tag post, :image %>
-  <% end %>
-<% end %>
-<%= paginate @posts %>
+</div>
+<div class="container">
+  <div class="row align-items-start">
+    <% @posts.each do |post| %>
+      <div class="col-xl-4 col-lg-6 col-sm-6 p-4 text-center">
+        <%= link_to post_path(post.id) do %>
+          <%= attachment_image_tag post, :image, :fill, 350,350 %>
+        <% end %>
+      </div>
+    <% end %>
+  </div>
+</div>
+<div class="container">
+  <div class="row justify-content-center">
+    <%= paginate @posts %>
+  </div>
+</div>

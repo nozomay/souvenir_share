@@ -14,7 +14,7 @@ class User < ApplicationRecord
   has_many :reverse_of_relationships, class_name: "Relationship", foreign_key: "followed_id", dependent: :destroy
   has_many :followings, through: :relationships, source: :followed
   has_many :followers, through: :reverse_of_relationships, source: :follower
-    # フォローしたときの処理
+  # フォローしたときの処理
   def follow(user_id)
     relationships.create(followed_id: user_id)
   end
@@ -26,10 +26,10 @@ class User < ApplicationRecord
   def following?(user)
     followings.include?(user)
   end
-  
+
   #[ユーザ検索]
   def self.looks(content)
-    @user = User.where('name LIKE ?', "%#{content}%")  
+    @users = User.where('name LIKE ?', "%#{content}%")
   end
 
   validates :name, presence: true

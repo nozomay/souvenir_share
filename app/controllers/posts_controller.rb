@@ -1,5 +1,6 @@
 class PostsController < ApplicationController
-  before_action :move_to_signed_in, except: [:index]
+  before_action :move_to_signed_in
+  before_action :correct_user, only: [:edit, :update, :destroy]
 
   def index
     @posts = Post.page(params[:page]).per(27)
@@ -10,6 +11,7 @@ class PostsController < ApplicationController
     @post = Post.find(params[:id])
     @user = @post.user
     @post_comment = PostComment.new
+    @comment = PostComment.page(params[:page]).per(5)
     @post_tags = @post.tags
   end
 
@@ -19,6 +21,7 @@ class PostsController < ApplicationController
 
   def create
     @post = Post.new(post_params)
+
     @post.user_id = current_user.id
     tag_list = params[:post][:name].split(',')
     if @post.save
@@ -59,14 +62,14 @@ class PostsController < ApplicationController
   end
 
   def search_tag
-    @tag_list = Tag.all
+    @tag_list = Tag.page(params[:page]).per(40)
     @tag = Tag.find(params[:tag_id])
     @posts = @tag.posts.all
   end
 
   def search_post
     @range = params[:range]
-    if @range == "User"
+    if @range == "ユーザー"
       @users = User.looks(params[:content])
     else
       @posts = Post.looks(params[:content])
@@ -81,6 +84,12 @@ class PostsController < ApplicationController
   def move_to_signed_in
     unless user_signed_in?
       redirect_to  new_user_session_path
+    end
+  end
+
+  def correct_user
+    unless Post.find(params[:id]).user_id == current_user.id
+        redirect_to "/posts"
     end
   end
 end
