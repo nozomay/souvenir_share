@@ -1,3 +1,27 @@
 // Place all the styles related to the homes controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
+
+@media (min-width: 992px) {
+ .title {
+   font-size: 3.5rem;
+ }
+}
+
+@media (max-width: 991.98px) {
+ .title {
+   font-size: 2.0rem;
+ }
+}
+
+@media (max-width: 767.98px) {
+ .title {
+   font-size: 1.8rem;
+ }
+}
+
+@media (max-width: 575.98px) {
+ .title {
+   font-size: 1.5rem;
+ }
+}

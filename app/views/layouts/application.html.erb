@@ -8,37 +8,35 @@
     <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload' %>
     <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
   </head>
-
   <body class="d-flex flex-column vh- 100">
-    <header class="shadow-sm">
+    <header class="shadow-none">
       <nav class="navbar navbar-expand-lg navbar-light">
         <div class="container">
-          <a class="navbar-brand p-3" href="/"><%= image_tag('logo.png') %></a>
+          <a class="navbar-brand p-3" href="/"><%= image_tag('logo.png', size: "180x150") %></a>
           <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
           </button>
           <div class="collapse navbar-collapse" id="navbarNavDropdown">
             <ul class="navbar-nav ml-auto">
-              <!--検索窓-->
-              <li class="nav-item">
+              <li class="nav-item px-2">
                 <%= form_with url: search_post_path, method: :get, local: true do |f| %>
                   <%= f.select :range, options_for_select([['投稿'], ['ユーザー']]) %>
                   <%= f.text_field :content %>
-                  <%= f.submit "search", class: "btn btn-outline-success fas fa-search" %>
+                  <%= f.submit "search", class: "btn btn-outline-warning fas fa-search" %>
                 <% end %>
               </li>
               <% if user_signed_in? %>
-              <li class="nav-item">
+              <li class="nav-item px-2">
                 <%= link_to "マイページ", user_path(current_user.id) %>
               </li>
-              <li class="nav-item">
+              <li class="nav-item px-2">
                 <%= link_to "ログアウト", destroy_user_session_path, method: :delete %>
               </li>
               <% else %>
-              <li class="nav-item">
+              <li class="nav-item px-2">
                 <%= link_to "新規登録", new_user_registration_path %>
               </li>
-              <li class="nav-item">
+              <li class="nav-item px-2">
                 <%= link_to "ログイン", new_user_session_path %>
               </li>
               <% end %>
@@ -50,7 +48,7 @@
     <main class="md-auto">
       <%= yield %>
     </main>
-    <footer class="bg-dark text-white pt-5 pb-4">
+    <footer class="bg-warning text-white pt-5 pb-4">
       <div class="container">
         <div class="row no-gutters">
           <div class="col-md-4">

@@ -34,7 +34,7 @@
         <br class="d-inline d-sm-none">
         <div class="col-xl-4 col-lg-4 col-md-4">
           <div class="p-1" >
-            フォロー数：<%= link_to user_followings_path(@user), class: 'followings' do %>
+            フォロー数：<%= link_to user_followings_path(@user) do %>
                           <%= @user.followings.count %>
                         <% end %>
           </div>
@@ -42,7 +42,7 @@
         <br class="d-inline d-sm-none">
         <div class="col-xl-4 col-lg-4 col-md-4">
           <div class="p-1">
-            フォロワー数：<%= link_to user_followers_path(@user), class: 'followers' do %>
+            フォロワー数：<%= link_to user_followers_path(@user) do %>
                             <%= @user.followers.count %>
                           <% end %>
           </div>
@@ -69,13 +69,13 @@
           <% if current_user.following?(@user) %>
         <div class="col-xl-4 col-lg-4 col-md-4">
           <div class="p-1">
-            <%= link_to "フォロー中", user_relationships_path(@user.id), method: :delete %>
+            <%= link_to "フォロー中", user_relationships_path(@user.id), method: :delete, class: 'followings' %>
           </div>
         </div>
           <% else %>
         <div class="col-xl-4 col-lg-4 col-md-4">
           <div class="p-1">
-            <%= link_to "フォローする", user_relationships_path(@user.id), method: :POST %>
+            <%= link_to "フォローする", user_relationships_path(@user.id), method: :POST, class: 'followers' %>
           </div>
         </div>
           <% end %>

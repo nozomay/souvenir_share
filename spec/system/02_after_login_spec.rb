@@ -5,7 +5,9 @@ describe 'ユーザログイン後のテスト' do
   let!(:other_user) { create(:user) }
   let!(:post) { create(:post, user: user) }
   let!(:other_post) { create(:post, user: other_user) }
-
+  let!(:tag) { create(:tag, name: 'aaa') }
+  let!(:post_tag) { create(:post_tag, post_id: post.id, tag_id: tag.id) }
+  
   before do
     visit new_user_session_path
     fill_in 'user[email]', with: user.email
@@ -44,7 +46,6 @@ describe 'ユーザログイン後のテスト' do
 
   describe '投稿画面のテスト' do
     before do
-
       new_post(post)
     end
     context '投稿成功のテスト' do
@@ -63,7 +64,6 @@ describe 'ユーザログイン後のテスト' do
     before do
       visit post_path(post)
     end
-
     context '編集リンクのテスト' do
       it '編集画面に遷移する' do
         click_link '編集'
@@ -75,7 +75,6 @@ describe 'ユーザログイン後のテスト' do
       before do
         click_link '削除'
       end
-
       it '正しく削除される' do
         expect(Post.where(id: post.id).count).to eq 0
       end
@@ -96,7 +95,7 @@ describe 'ユーザログイン後のテスト' do
         @post_old_title = post.title
         @post_old_review = post.review
         @post_old_address = post.address
-        @post_old_tag = post.tags.name
+        @post_old_tag = post.tags[0].name
         edit_post(post)
         click_button '保存'
       end
@@ -115,7 +114,7 @@ describe 'ユーザログイン後のテスト' do
         expect(post.reload.address).not_to eq @post_old_address
       end
       it 'tagが正しく更新される' do
-        expect(post.reload.tags.name).not_to eq @post_old_tag
+        expect(post.reload.tags[0].name).not_to eq @post_old_tag
       end
       it 'リダイレクト先が、更新した投稿の詳細画面になっている' do
         expect(current_path).to eq '/posts/' + post.id.to_s
@@ -124,22 +123,23 @@ describe 'ユーザログイン後のテスト' do
   end
 
   describe 'フォロー機能のテスト' do
-    context 'ユーザーをフォロー、フォロー解除ができる' do
-      before do
-        visit user_path(other_user)
-      end
+    before do
+      visit user_path(other_user)
+    end
 
+    context 'ユーザーをフォロー、フォロー解除ができる' do
       it 'other_userをフォローする'do
-        click_on 'followings'
-        expect(pege).to have_selector 'followers'
-        expect(user.followed.count).to eq(1)
-        expect(other_user.follower.count).to eq(1)
+        click_link 'フォローする'
+        expect(page).to have_selector '.followings'
+        expect(user.followings.count).to eq(1)
+        expect(other_user.followers.count).to eq(1)
       end
       it 'other_userをフォロー解除する'do
-        click_on 'followers'
-        expect(pege).to have_selector 'followings'
-        expect(user.followed.count).to eq(0)
-        expect(other_user.follower.count).to eq(0)
+        click_link 'フォローする'
+        click_link 'フォロー中'
+        expect(page).to have_selector '.followers'
+        expect(user.followings.count).to eq(0)
+        expect(other_user.followers.count).to eq(0)
       end
     end
   end
@@ -152,7 +152,6 @@ describe 'ユーザログイン後のテスト' do
     end
 
     context 'ユーザーが投稿にいいね、いいね解除できる' do
-
       it "いいねを押す" do
         click_link '♡0'
         expect(page).to have_selector '.favorite'
@@ -169,12 +168,12 @@ describe 'ユーザログイン後のテスト' do
 
   describe 'コメント機能のテスト' do
     let(:post_comment){create(:post_comment,user_id: user.id, post_id: post.id)}
-    context '他のコメント成功のテスト' do
-      before do
-        visit post_path(other_post)
-        fill_in 'post_comment[comment]', with: Faker::Lorem.characters(number: 10)
-      end
 
+    before do
+      visit post_path(other_post)
+      fill_in 'post_comment[comment]', with: Faker::Lorem.characters(number: 10)
+    end
+    context '他のコメント成功のテスト' do
       it '自分の新しい投稿が正しく保存される' do
         expect { click_button '送信する' }.to change(other_post.post_comments, :count).by(1)
       end
@@ -182,7 +181,6 @@ describe 'ユーザログイン後のテスト' do
       it 'リダイレクト先が、保存できた投稿の詳細画面になっている' do
         click_button '送信する'
         expect(current_path).to eq '/posts/' + other_post.id.to_s
-        #expect(current_path).to eq '/posts/' + Post.last.id.to_s
       end
     end
   end
